@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Test</title>
+	<script src="app.js"></script>
+</head>
+<body>
+Test
+    <script type="text/javascript">
+     var ajax = (method, url, data, async, success, error) => {
+            if (!url) {
+                return;
+            }
+            if (typeof (success) !== 'function') {
+                success = () => { };
+            }
+            if (typeof (error) !== 'function') {
+                error = () => { };
+            }
+            if (!data) {
+                data = '';
+            }
+            let req = new XMLHttpRequest();
+            req.open(method, url, async);
+            req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            req.onload = () => {
+                if (req.status >= 200 && req.status < 400) {
+                    var resp = req.responseText;
+                    success(resp);
+                } else {
+                    error();
+
+                }
+            };
+            req.onerror = error;
+            req.send(data);
+        };
+        var get = (url, async, success, error) => {
+            return ajax("Get", url, null, async, success, error);
+        };
+        var post = (url, data, async, success, error) => {
+            return ajax("Post", url, data, async, success, error);
+        };
+    </script>
+</body>
+</html>
